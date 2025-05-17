@@ -23,5 +23,6 @@ router.put("/password/update", isAuthenticated, updatePassword);
 router.put("/me/profile/update", isAuthenticated, updateProfile);
 router.post("/password/forgot", forgotPassword);
 router.put("/password/reset/:token", resetPassword);
+router.put("/update/me", isAuthenticated, updateProfile);
 
 export default router;

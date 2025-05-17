@@ -63,13 +63,14 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     facebookURL,
     linkedInURL,
     avatar: {
-      public_id: cloudinaryResponse.public_id, // Set your cloudinary public_id here
-      url: cloudinaryResponse.secure_url, // Set your cloudinary secure_url here
+      public_id: cloudinaryResponseForAvatar.public_id,
+      url: cloudinaryResponseForAvatar.secure_url,
     },
     resume: {
-      public_id: cloudinaryResponse.public_id, // Set your cloudinary public_id here
-      url: cloudinaryResponse.secure_url, // Set your cloudinary secure_url here
+      public_id: cloudinaryResponseForResume.public_id,
+      url: cloudinaryResponseForResume.secure_url,
     },
+    
   });
   generateToken(user, "Registered!", 201, res);
 });
@@ -195,13 +196,25 @@ export const updatePassword = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const getUserForPortfolio = catchAsyncErrors(async (req, res, next) => {
-  const id = "663296a896e553748ab5b0be";
+  const id = "66e68cff5f9edbd592c514a8"; // Hardcoded ID for testing
+  
+  // Fetch the user by ID
   const user = await User.findById(id);
+
+  // Log the fetched user data for debugging
+
+  // If the user is not found, return an error
+  if (!user) {
+    return next(new ErrorHandler("User not found!", 404));
+  }
+
+  // If the user is found, return the user data
   res.status(200).json({
     success: true,
     user,
   });
 });
+
 
 //FORGOT PASSWORD
 export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
